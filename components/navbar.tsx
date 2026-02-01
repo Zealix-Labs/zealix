@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import {
@@ -15,6 +16,7 @@ import {
 import { Menu, ArrowRight, Brain, Code2, Smartphone, Layers, Palette, Cloud, Briefcase, Users, BookOpen, FileText } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { ContactDialog } from "@/components/contact-dialog";
 
 const servicesItems = [
   { icon: Brain, title: "AI Development", description: "Custom LLMs, NLP, and automation", href: "#services" },
@@ -37,12 +39,15 @@ const resourcesItems = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
+    <>
     <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="container max-w-6xl mx-auto flex h-20 items-center justify-between px-4 md:px-8">
         <Link href="/" className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
-          Zealix<span className="text-[#4880ED] text-4xl leading-[0]">.</span>
+          <Image src="/zealix.png" alt="Zealix" width={32} height={32} className="w-8 h-8" />
+          Zealix<span className="text-[#4880ED] text-4xl leading-[0]"></span>
         </Link>
         
         {/* Desktop Nav with Popovers */}
@@ -106,6 +111,14 @@ export function Navbar() {
             </NavigationMenuItem>
             
             <NavigationMenuItem>
+              <Link href="#products" legacyBehavior passHref>
+                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm font-medium text-gray-600 hover:text-[#4880ED] bg-transparent")}>
+                  Products
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            
+            <NavigationMenuItem>
               <Link href="#process" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm font-medium text-gray-600 hover:text-[#4880ED] bg-transparent")}>
                   Process
@@ -157,6 +170,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <Button 
+            onClick={() => setIsContactOpen(true)}
             className="hidden md:inline-flex bg-[#4880ED] hover:bg-[#3b6cc9] text-white rounded-full h-11 pl-6 pr-1.5 py-1 text-sm font-medium min-w-[140px] shadow-md transition-all hover:scale-105 flex items-center justify-between gap-2"
           >
             Get in touch
@@ -173,16 +187,23 @@ export function Navbar() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <SheetContent side="right" className="px-6">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <SheetDescription className="sr-only">Mobile navigation menu</SheetDescription>
-              <div className="flex flex-col gap-6 mt-8">
+              <div className="flex flex-col gap-6 mt-8 pl-2">
                 <Link href="#services" onClick={() => setIsOpen(false)} className="text-lg font-medium">Services</Link>
                 <Link href="#industries" onClick={() => setIsOpen(false)} className="text-lg font-medium">Industries</Link>
+                <Link href="#products" onClick={() => setIsOpen(false)} className="text-lg font-medium">Products</Link>
                 <Link href="#process" onClick={() => setIsOpen(false)} className="text-lg font-medium">Process</Link>
                 <Link href="#" onClick={() => setIsOpen(false)} className="text-lg font-medium">Resources</Link>
                 <Link href="#about" onClick={() => setIsOpen(false)} className="text-lg font-medium">About</Link>
-                <Button className="w-full bg-[#4880ED] text-white hover:bg-blue-700 rounded-full mt-4 h-12">
+                <Button 
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsContactOpen(true);
+                  }}
+                  className="w-full bg-[#4880ED] text-white hover:bg-blue-700 rounded-full mt-4 h-12"
+                >
                   Get in touch
                 </Button>
               </div>
@@ -191,5 +212,8 @@ export function Navbar() {
         </div>
       </div>
     </nav>
+
+    <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
+    </>
   );
 }
