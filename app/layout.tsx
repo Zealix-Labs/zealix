@@ -10,6 +10,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Zealix - AI Development & Product Engineering",
   description: "We build ideas into scalable AI-powered products. Partner with Zealix to build web apps, mobile apps, and AI solutions.",
+  icons: {
+    icon: "/zealix.png",
+    shortcut: "/zealix.png",
+    apple: "/zealix.png",
+  },
 };
 
 export default function RootLayout({
