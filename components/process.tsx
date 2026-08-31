@@ -42,8 +42,8 @@ export function Process() {
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-12">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="w-2 h-2 bg-[#4880ED] rounded-full"></span>
-            <span className="text-xs sm:text-sm font-medium text-[#4880ED] uppercase tracking-wider">Our Workflow</span>
+            <span className="w-2 h-2 bg-[#2F5FCF] rounded-full"></span>
+            <span className="text-xs sm:text-sm font-medium text-[#2F5FCF] uppercase tracking-wider">Our Workflow</span>
           </div>
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium text-[#111111]">
             From concept to scale
@@ -60,11 +60,11 @@ export function Process() {
               viewport={{ once: true }}
               className="relative group"
             >
-              <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-blue-100 shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col items-center text-center">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#4880ED] rounded-xl flex items-center justify-center text-white mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+              <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-black/5 shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col items-center text-center">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#2F5FCF] rounded-xl flex items-center justify-center text-white mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                   <step.icon className="h-6 w-6 sm:h-7 sm:w-7" />
                 </div>
-                <span className="text-xs font-semibold text-[#4880ED] mb-2">STEP {step.number}</span>
+                <span className="text-xs font-semibold text-[#2F5FCF] mb-2">STEP {step.number}</span>
                 <h4 className="text-sm sm:text-base font-semibold text-[#111111] mb-2">{step.title}</h4>
                 <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
                   {step.description}
