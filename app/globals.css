@@ -48,9 +48,9 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #FEFFFE;
-  --foreground: #111111;
-  --card: #F5F5F5;
+  --background: #FFFFFF;
+  --foreground: #171512;
+  --card: #EFF6FF;
   --card-foreground: #111111;
   --popover: #FEFFFE;
   --popover-foreground: #111111;
@@ -145,4 +145,12 @@
 }
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

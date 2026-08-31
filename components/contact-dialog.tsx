@@ -16,9 +16,27 @@ interface ContactDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const budgetRanges = {
+  INR: [
+    { value: "Under ₹1L", label: "Under ₹1,00,000" },
+    { value: "₹1L - ₹3L", label: "₹1,00,000 - ₹3,00,000" },
+    { value: "₹3L - ₹7L", label: "₹3,00,000 - ₹7,00,000" },
+    { value: "₹7L - ₹15L", label: "₹7,00,000 - ₹15,00,000" },
+    { value: "₹15L+", label: "₹15,00,000+" },
+  ],
+  USD: [
+    { value: "Under $2k", label: "Under $2,000" },
+    { value: "$2k - $5k", label: "$2,000 - $5,000" },
+    { value: "$5k - $15k", label: "$5,000 - $15,000" },
+    { value: "$15k - $50k", label: "$15,000 - $50,000" },
+    { value: "$50k+", label: "$50,000+" },
+  ],
+} as const;
+
 export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [currency, setCurrency] = useState<"INR" | "USD">("INR");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +44,8 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
     setSubmitStatus("idle");
 
     const formData = new FormData(e.currentTarget);
-    
+    formData.append("budget_currency", currency);
+
     // Using Web3Forms - Free service, no backend needed
     // Replace 'YOUR_ACCESS_KEY_HERE' with your actual Web3Forms access key
     // Get free key at: https://web3forms.com/
@@ -60,7 +79,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto p-0 w-[calc(100%-2rem)]">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto no-scrollbar p-0 w-[calc(100%-2rem)]">
         <div className="p-4 sm:p-6 md:p-8">
           <DialogHeader className="space-y-3 mb-6">
             <DialogTitle className="text-2xl sm:text-3xl font-medium text-[#111111]">
@@ -82,7 +101,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 id="name"
                 name="name"
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400"
                 placeholder="John Doe"
               />
             </div>
@@ -97,7 +116,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 id="email"
                 name="email"
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400"
                 placeholder="john@example.com"
               />
             </div>
@@ -111,7 +130,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 type="tel"
                 id="phone"
                 name="phone"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400"
                 placeholder="+1 (555) 000-0000"
               />
             </div>
@@ -125,7 +144,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 id="projectType"
                 name="projectType"
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] bg-white"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] bg-white"
               >
                 <option value="">Select a service</option>
                 <option value="AI Development">AI Development</option>
@@ -134,6 +153,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 <option value="SaaS Product Engineering">SaaS Product Engineering</option>
                 <option value="UI/UX Design">UI/UX Design</option>
                 <option value="Cloud & DevOps">Cloud & DevOps</option>
+                <option value="Cyber Security">Cyber Security</option>
                 <option value="Consultation">General Consultation</option>
                 <option value="Other">Other</option>
               </select>
@@ -141,20 +161,38 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
 
             {/* Budget Range */}
             <div className="space-y-2">
-              <label htmlFor="budget" className="text-sm font-medium text-[#111111]">
-                Project Budget <span className="text-gray-400 text-xs">(Optional)</span>
-              </label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="budget" className="text-sm font-medium text-[#111111]">
+                  Project Budget <span className="text-gray-400 text-xs">(Optional)</span>
+                </label>
+                <div className="flex rounded-lg border border-gray-300 p-0.5 bg-gray-50">
+                  {(["INR", "USD"] as const).map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setCurrency(c)}
+                      className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                        currency === c
+                          ? "bg-[#2F5FCF] text-white"
+                          : "text-gray-500 hover:text-[#171512]"
+                      }`}
+                    >
+                      {c === "INR" ? "₹ INR" : "$ USD"}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <select
                 id="budget"
                 name="budget"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] bg-white"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] bg-white"
               >
                 <option value="">Select budget range</option>
-                <option value="Under $10k">Under $10,000</option>
-                <option value="$10k - $25k">$10,000 - $25,000</option>
-                <option value="$25k - $50k">$25,000 - $50,000</option>
-                <option value="$50k - $100k">$50,000 - $100,000</option>
-                <option value="$100k+">$100,000+</option>
+                {budgetRanges[currency].map((range) => (
+                  <option key={range.value} value={range.value}>
+                    {range.label}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -168,7 +206,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 name="message"
                 required
                 rows={4}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400 resize-none"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400 resize-none"
                 placeholder="Describe your project, goals, timeline, and any specific requirements..."
               />
             </div>
@@ -182,7 +220,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                 id="additional"
                 name="additional"
                 rows={2}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#4880ED] focus:ring-2 focus:ring-[#4880ED]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400 resize-none"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#2F5FCF] focus:ring-2 focus:ring-[#2F5FCF]/20 outline-none transition-all text-[#111111] placeholder:text-gray-400 resize-none"
                 placeholder="Any other details you'd like to share..."
               />
             </div>
@@ -203,7 +241,7 @@ export function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#4880ED] hover:bg-[#3b6cc9] text-white rounded-lg h-12 text-base font-medium shadow-md transition-all hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+              className="w-full bg-[#2F5FCF] hover:bg-[#24499E] text-white rounded-lg h-12 text-base font-medium shadow-sm transition-colors duration-200 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
