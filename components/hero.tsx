@@ -30,7 +30,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mx-auto max-w-5xl text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-[#171512] mb-6 md:mb-8 leading-[1.1] px-4 sm:px-0"
         >
-          We build the software
+          We build the software{" "}
           <br className="hidden sm:block" />
           your team{" "}
           <span className="text-[#2F5FCF] relative inline-block">
