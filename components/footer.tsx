@@ -18,7 +18,7 @@ export function Footer() {
               Zealix
             </Link>
             <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
-              A technology partner for any business, any size — full-stack SaaS, AI, and custom software.
+              A technology partner for ambitious businesses — full-stack SaaS, AI, and custom software.
             </p>
           </div>
 
