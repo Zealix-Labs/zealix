@@ -32,20 +32,20 @@ export function Industries() {
             </p>
           </div>
           
-          <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
+          <div className="md:w-1/2 grid grid-cols-2 gap-3 sm:gap-4 w-full">
             {industries.map((industry, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-3 p-3 sm:p-4 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-100 transition-all"
+                className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-100 transition-all"
               >
                 <div className="flex-shrink-0 text-[#7FA6E8]">
-                  <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <CheckCircle2 className="h-4 w-4 sm:h-6 sm:w-6" />
                 </div>
-                <span className="text-base sm:text-lg font-medium text-[#111111]">{industry}</span>
+                <span className="text-sm sm:text-lg font-medium text-[#111111]">{industry}</span>
               </motion.div>
             ))}
           </div>
